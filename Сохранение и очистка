@@ -1,0 +1,95 @@
+//Очистка введеных данных, сброс количества в "1" с предварительным сохранением
+function d() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('A3:A20').activate();
+  spreadsheet.getActiveRangeList().clear({contentsOnly: true, skipFilteredRows: true});
+  spreadsheet.getRange('D1').activate();
+  spreadsheet.getActiveRangeList().clear({contentsOnly: true, skipFilteredRows: true});
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.getActiveRangeList().clear({contentsOnly: true, skipFilteredRows: false});
+  spreadsheet.getCurrentCell().setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B4'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B5'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B6'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B7'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B8'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B9'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B10'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B11'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B12'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B13'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B14'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B15'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B16'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B17'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B18'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B19'))
+  .setValue('1');
+  spreadsheet.getRange('B3:B20').activate();
+  spreadsheet.setCurrentCell(spreadsheet.getRange('B20'))
+  .setValue('1');
+  spreadsheet.getRange('A3').activate();
+};
+
+function saveData() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet();
+  var inputSheet = sheet.getSheetByName("Рабочий вариант");
+  var historySheet = sheet.getSheetByName("История");
+
+  // Получаем данные из диапазона A1:F20 на листе "Ввод данных"
+  var dataRange = inputSheet.getRange("A1:F20");
+  var data = dataRange.getValues();
+
+  // Находим последнюю строку на листе "История"
+  var lastRow = historySheet.getLastRow();
+  
+  // Если история пуста, задаем начальную строку как 1, иначе - следующую строку после последней занятой
+  var startRow = lastRow === 0 ? 1 : lastRow + 1;
+
+  // Добавляем к данным столбец с текущей датой и временем
+  var timestamp = new Date();
+  for (var i = 0; i < data.length; i++) {
+    data[i].push(timestamp);
+  }
+
+  // Записываем данные на лист "История" начиная с первой свободной строки
+  historySheet.getRange(startRow, 1, data.length, data[0].length).setValues(data);
+  // Очищаем диапазон на листе "Ввод данных"
+  
+}
+//Последовательность скриптов
+function combinedScript() {
+  saveData();
+  d();
+}
