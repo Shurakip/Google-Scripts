@@ -1,0 +1,40 @@
+//Автосоздание списка уникальных значений
+function copyUniqueValues() {
+  // Получаем активную таблицу
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  
+  // Получаем лист "Лист2" и его данные из столбца C
+  var sourceSheet = spreadsheet.getSheetByName("Лист2");
+  var sourceRange = sourceSheet.getRange("C2:C");
+  var sourceValues = sourceRange.getValues();
+  
+  // Получаем лист "Список" и его данные из столбца B
+  var targetSheet = spreadsheet.getSheetByName("Список");
+  var targetRange = targetSheet.getRange("B:B");
+  var targetValues = targetRange.getValues();
+  
+  // Создаем массив для уникальных значений
+  var uniqueValues = [];
+  
+  // Сначала добавляем существующие значения из столбца B в массив уникальных значений
+  for (var i = 0; i < targetValues.length; i++) {
+    if (targetValues[i][0] && uniqueValues.indexOf(targetValues[i][0]) === -1) {
+      uniqueValues.push(targetValues[i][0]);
+    }
+  }
+  
+  // Затем добавляем уникальные значения из столбца C
+  for (var j = 0; j < sourceValues.length; j++) {
+    if (sourceValues[j][0] && uniqueValues.indexOf(sourceValues[j][0]) === -1) {
+      uniqueValues.push(sourceValues[j][0]);
+    }
+  }
+  
+  // Очищаем столбец B на листе "Список" перед вставкой обновленного списка уникальных значений
+  targetSheet.getRange("B:B").clearContent();
+  
+  // Вставляем уникальные значения в столбец B на листе "Список"
+  for (var k = 0; k < uniqueValues.length; k++) {
+    targetSheet.getRange(k + 1, 2).setValue(uniqueValues[k]);
+  }
+}
