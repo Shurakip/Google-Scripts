@@ -1,0 +1,33 @@
+//Автодобавление даты
+function onEdit(e) {
+  var sheet = e.source.getActiveSheet();
+  var range = e.range;
+  
+  // Проверка, что изменение произошло в столбце B
+  if (range.getColumn() == 2) {
+    var row = range.getRow();
+    var dateCell = sheet.getRange(row, 1);
+    
+    // Установите текущую дату в столбце A, если она еще не установлена
+    if (e.value && dateCell.isBlank()) {
+      dateCell.setValue(new Date());
+    }
+  }
+}
+
+function onEditAllSheets(e) {
+  var sheets = e.source.getSheets();
+  
+  sheets.forEach(function(sheet) {
+    var range = e.range;
+    
+    if (range.getColumn() == 2) {
+      var row = range.getRow();
+      var dateCell = sheet.getRange(row, 1);
+      
+      if (e.value && dateCell.isBlank()) {
+        dateCell.setValue(new Date());
+      }
+    }
+  });
+}
